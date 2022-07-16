@@ -29,11 +29,15 @@ class Timer(object):
         从京东服务器获取时间毫秒
         :return:
         """
-        url = 'https://api.m.jd.com/client.action?functionId=queryMaterialProducts&client=wh5'
-        ret = requests.get(url).text
-        js = json.loads(ret)
+        #新增数据头解决京东屏蔽抓取问题
+        url = "https://api.m.jd.com/client.action?functionId=queryMaterialProducts&client=wh5"
+        headers = {'user-agent': "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 UBrowser/5.6.12150.8 Safari/537.36"}
+        ret = requests.get(url,headers=headers)
+         
+        js = json.loads(ret.text)
         return int(js["currentTime2"])
-        # return int(round(time.time() * 1000))
+       #return int(round(time.time() * 1000))
+
 
     def local_time(self):
         """
